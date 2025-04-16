@@ -1,55 +1,1207 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0;url=tipjar.html">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TipJar - Redirecting...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>TipJar</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <style>
+        :root {
+            --starbucks-green: #00704A;
+            --starbucks-dark: #1E3932;
+            --starbucks-gold: #CBA258;
+            --app-dark: #111827;
+            --app-darker: #0A0F16;
+            --app-accent: #00F5A0;
+        }
+
+        /* Dark mode colors */
+        .dark {
+            --bg-primary: var(--app-dark);
+            --bg-secondary: var(--app-darker);
+            --text-primary: #E0E0E0;
+            --text-secondary: var(--app-accent);
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --input-bg: rgba(17, 24, 39, 0.8);
+            --button-hover: #00875A;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #0F1117;
-            color: #E0E0E0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
+            background-color: #0F1117; /* Nearly black to match the reference image */
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .logo-container {
+            display: none;
+        }
+
+        .app-title {
+            color: var(--app-accent);
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-top: 2.5rem;
+            margin-bottom: 0.8rem;
+            font-size: 3.8rem;
+            text-shadow: 0 0 15px rgba(0, 245, 160, 0.3);
+            position: relative;
+            display: inline-block;
+        }
+
+        .app-subtitle {
+            color: rgba(0, 245, 160, 0.8);
+            font-style: italic;
+            font-size: 1.4rem;
+            margin-bottom: 3rem;
+        }
+
+        .custom-card {
+            border: 1px solid rgba(0, 245, 160, 0.1);
+            border-radius: 16px;
             padding: 20px;
+            margin-bottom: 24px;
+            background-color: var(--card-bg);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .custom-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+        }
+
+        .partner-card {
+            border: 1px solid rgba(0, 245, 160, 0.15);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 16px;
+            background-color: var(--card-bg);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .partner-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .partner-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .partner-card-name {
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+
+        .partner-card-amount {
+            color: var(--app-accent);
+            font-weight: bold;
+            font-size: 24px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .calculation-box {
+            font-size: 15px;
+            margin-top: 12px;
+            background-color: var(--input-bg);
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .bills-box {
+            font-size: 15px;
+            margin-top: 12px;
+            background-color: rgba(0, 245, 160, 0.05);
+            padding: 12px;
+            border-radius: 12px;
+            color: var(--app-accent);
+            font-weight: 500;
+        }
+
+        .bill-chip {
+            background-color: rgba(0, 245, 160, 0.2);
+            color: var(--app-accent);
+            padding: 8px 14px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            backdrop-filter: blur(4px);
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .bill-chip:hover {
+            background-color: rgba(0, 245, 160, 0.3);
+            transform: scale(1.05);
+        }
+
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, rgba(0,245,160,0) 0%, rgba(0,245,160,0.3) 50%, rgba(0,245,160,0) 100%);
+            margin: 32px 0;
+        }
+
+        input[type="number"], input[type="text"] {
+            border: 1px solid rgba(0, 245, 160, 0.2);
+            border-radius: 12px;
+            padding: 14px;
+            width: 100%;
+            margin-bottom: 14px;
+            background-color: var(--input-bg);
+            color: var(--text-primary);
+            font-size: 16px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="number"]:focus, input[type="text"]:focus {
+            border-color: var(--app-accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 245, 160, 0.15);
+        }
+
+        .btn-primary {
+            background-color: rgba(0, 245, 160, 0.15);
+            color: var(--app-accent);
+            border: 1px solid rgba(0, 245, 160, 0.3);
+            border-radius: 12px;
+            padding: 14px 24px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(4px);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn-primary:hover {
+            background-color: rgba(0, 245, 160, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 245, 160, 0.2);
+        }
+
+        .btn-primary:active {
+            transform: translateY(1px);
+        }
+
+        .collapsible {
+            background-color: rgba(30, 41, 59, 0.4);
+            color: var(--text-primary);
+            cursor: pointer;
+            padding: 16px;
+            width: 100%;
+            border: 1px solid rgba(0, 245, 160, 0.1);
+            text-align: left;
+            outline: none;
+            font-size: 16px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .collapsible:hover {
+            background-color: rgba(30, 41, 59, 0.6);
+        }
+
+        .collapsible:after {
+            content: '\002B';
+            color: var(--app-accent);
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .active {
+            background-color: rgba(30, 41, 59, 0.7);
+            border-color: rgba(0, 245, 160, 0.2);
+        }
+
+        .active:after {
+            content: "\2212";
+            transform: rotate(180deg);
+        }
+
+        .collapsible-content {
+            padding: 0 18px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .file-drop-area {
+            position: relative;
+            border: 2px dashed rgba(0, 245, 160, 0.3);
+            border-radius: 16px;
+            padding: 30px 20px;
             text-align: center;
+            transition: all 0.3s ease;
+            background-color: rgba(30, 41, 59, 0.2);
+            backdrop-filter: blur(4px);
         }
-        h1 {
-            color: #00F5A0;
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+
+        .file-drop-area:hover, .file-drop-area.dragover {
+            border-color: var(--app-accent);
+            background-color: rgba(0, 245, 160, 0.05);
         }
-        p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
+
+        .file-drop-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+            color: var(--app-accent);
+            opacity: 0.7;
         }
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(0, 245, 160, 0.3);
-            border-radius: 50%;
-            border-top-color: #00F5A0;
-            animation: spin 1s ease-in-out infinite;
+
+        .file-message {
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            font-size: 16px;
         }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+
+        .file-input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .footer-text {
+            color: rgba(224, 224, 224, 0.6);
+            transition: color 0.2s ease;
+        }
+
+        .footer-text:hover {
+            color: var(--app-accent);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+                padding-top: env(safe-area-inset-top);
+                padding-bottom: calc(env(safe-area-inset-bottom) + 16px);
+            }
+
+            .logo-container {
+                width: 240px;
+                height: 240px;
+            }
+
+            .app-title {
+                font-size: 2.8rem;
+                margin-top: 1.5rem;
+            }
+
+            .app-subtitle {
+                font-size: 1rem;
+            }
+
+            input, button, select {
+                font-size: 16px;
+                min-height: 48px;
+            }
+
+            .btn-primary {
+                padding: 14px 20px;
+            }
+
+            .custom-card, .partner-card {
+                padding: 16px;
+                margin-bottom: 16px;
+            }
+
+            .calculation-box, .bills-box {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .bill-chip {
+                padding: 6px 10px;
+                font-size: 13px;
+            }
+        }
+
+        /* iOS-specific optimizations */
+        @supports (-webkit-touch-callout: none) {
+            input, select, textarea {
+                font-size: 16px !important;
+            }
+
+            .btn-primary {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            .custom-card, .partner-card {
+                -webkit-backdrop-filter: blur(10px);
+                backdrop-filter: blur(10px);
+            }
+        }
+
+        /* Hide scrollbar while keeping functionality */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
         }
     </style>
 </head>
 <body>
-    <h1>TipJar</h1>
-    <p>Redirecting to the application...</p>
-    <div class="spinner"></div>
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Title Section -->
+        <div class="text-center mb-12 animate__animated animate__fadeIn">
+            <h1 class="app-title">
+              TipJar
+            </h1>
+            <div class="app-subtitle">"If theres a Will, Theres a Way!" -Lauren 2025</div>
+        </div>
+
+        <!-- Main Application -->
+        <div class="main-app">
+            <!-- Initial Upload Section -->
+            <div id="uploadSection" class="custom-card p-6 animate__animated animate__fadeInUp animate__delay-1s">
+                <h2 class="text-xl font-bold text-gray-100 mb-6">Upload Tip Sheet</h2>
+                <div class="file-drop-area mb-4">
+                    <div class="file-drop-icon">📁</div>
+                    <div class="file-message">Drag and drop file here</div>
+                    <div class="text-sm text-gray-400">Limit 20MB per file • JPG, JPEG, PNG</div>
+                    <input type="file" id="imageUpload" accept="image/*" class="file-input">
+                </div>
+                <div id="selectedFileName" class="mt-3 text-center text-gray-400"></div>
+                <div class="mt-4">
+                    <button id="processButton" class="btn-primary py-3 opacity-50 cursor-not-allowed" disabled>Process</button>
+                </div>
+                <p class="text-xs text-gray-500 mt-3 text-center">Using Gemini API for image processing</p>
+            </div>
+
+            <!-- Manual Entry Option -->
+            <div class="mt-4 animate__animated animate__fadeInUp animate__delay-2s">
+                <button class="collapsible text-gray-300">Or Enter Partner Data Manually</button>
+                <div class="collapsible-content">
+                    <div class="p-4">
+                        <div class="mb-4">
+                            <label for="numPartners" class="block mb-2 text-gray-300">Number of Partners:</label>
+                            <input type="number" id="numPartners" min="1" max="20" value="3" class="w-full">
+                        </div>
+                        <div id="manualPartnerInputs" class="mt-4"></div>
+                        <button id="saveManualPartners" class="btn-primary mt-4 py-3">Save Partner Data</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview Section -->
+            <div id="previewSection" class="mt-8 hidden animate__animated animate__fadeIn">
+                <h2 class="text-xl font-bold text-gray-100 mb-4">Preview</h2>
+                <div class="custom-card p-4">
+                    <img id="previewImage" class="w-full rounded-lg" src="" alt="Preview">
+                </div>
+            </div>
+
+            <!-- Extracted Text Section -->
+            <div id="extractedTextSection" class="mt-8 hidden animate__animated animate__fadeIn">
+                <h2 class="text-xl font-bold text-gray-100 mb-4">Extracted Tippable Hours</h2>
+                <div class="custom-card p-4">
+                    <pre id="extractedText" class="whitespace-pre-wrap text-gray-300"></pre>
+                </div>
+                <div class="mt-4">
+                    <button id="extractPartnerDataBtn" class="btn-primary py-3">Extract Partner Data</button>
+                </div>
+            </div>
+
+            <!-- Partner Data Section -->
+            <div id="partnerDataSection" class="mt-8 hidden animate__animated animate__fadeIn">
+                <h2 class="text-xl font-bold text-gray-100 mb-4">Partner Data</h2>
+                <div class="custom-card p-4">
+                    <div id="totalHours" class="text-lg font-bold mb-4 text-gray-100"></div>
+                    <div id="partnerList" class="text-gray-300"></div>
+                </div>
+
+                <div class="mt-6">
+                    <label for="totalTipAmount" class="block mb-2 text-gray-300">Enter total tip amount for the week: $</label>
+                    <input type="number" id="totalTipAmount" min="0" step="10" class="w-full">
+                    <button id="calculateTipsBtn" class="btn-primary mt-4 py-3">Calculate Tips</button>
+                </div>
+            </div>
+
+            <!-- Tip Distribution Results -->
+            <div id="tipDistributionSection" class="mt-8 hidden animate__animated animate__fadeIn">
+                <h2 class="text-xl font-bold text-gray-100 mb-4">Tip Distribution Results</h2>
+                
+                <div id="hourlyRateInfo" class="bg-gray-800 bg-opacity-70 text-gray-100 p-4 rounded-lg mb-4">
+                    <p class="mb-0"><strong>Calculation:</strong></p>
+                    <p class="mb-0 text-app-accent" id="calculationDetails"></p>
+                </div>
+                
+                <div id="tipDistributionList"></div>
+                
+                <button class="collapsible mt-4 text-gray-300">Copy-paste format</button>
+                <div class="collapsible-content">
+                    <div class="p-4">
+                        <pre id="copyPasteFormat" class="whitespace-pre-wrap bg-gray-800 bg-opacity-50 p-4 rounded text-sm text-gray-300"></pre>
+                    </div>
+                </div>
+                
+                <button id="saveToHistoryBtn" class="btn-primary mt-6 py-3">Save to History</button>
+            </div>
+
+            <!-- Distribution History -->
+            <div id="historySection" class="mt-8 hidden animate__animated animate__fadeIn">
+                <button class="collapsible text-gray-300">View Distribution History</button>
+                <div class="collapsible-content">
+                    <div id="historyList" class="p-4"></div>
+                </div>
+            </div>
+
+            <!-- Download Options -->
+            <div id="downloadSection" class="mt-8 hidden animate__animated animate__fadeIn">
+                <h2 class="text-xl font-bold text-gray-100 mb-4">Download Options</h2>
+                <div class="space-y-4">
+                    <a id="downloadOcrBtn" href="#" download="ocr_result.txt" class="btn-primary py-3 block text-center">Download OCR Text</a>
+                    <a id="downloadTableBtn" href="#" download="tip_distribution.html" class="btn-primary py-3 block text-center">Download as Table</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="section-divider"></div>
+        <div class="text-center mt-6 mb-8">
+            <p class="mb-0 footer-text">Made by William Walsh</p>
+            <p class="mt-1 footer-text">Starbucks Store# 69600</p>
+        </div>
+    </div>
+
     <script>
-        // Redirect after a short delay
-        setTimeout(function() {
-            window.location.href = "tipjar.html";
-        }, 1000);
+        // Add the following JavaScript to handle the drag and drop functionality
+        const fileDropArea = document.querySelector('.file-drop-area');
+        const fileInput = document.getElementById('imageUpload');
+        
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            fileDropArea.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            fileDropArea.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            fileDropArea.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight() {
+            fileDropArea.classList.add('dragover');
+        }
+        
+        function unhighlight() {
+            fileDropArea.classList.remove('dragover');
+        }
+        
+        fileDropArea.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            fileInput.files = files;
+            
+            // Trigger the change event
+            const event = new Event('change', { bubbles: true });
+            fileInput.dispatchEvent(event);
+        }
+
+        // Global state management (similar to Streamlit's session state)
+        const state = {
+            ocrResult: null,
+            imageData: null,
+            partnerData: null,
+            totalHours: 0,
+            tipCalculated: false,
+            weekCounter: 1,
+            tipsHistory: [],
+            hourlyRate: 0,
+            totalTipAmount: 0,
+            distributedTips: null
+        };
+
+        // Gemini API settings
+        const GEMINI_API_KEY = "AIzaSyCi_m_KbY-a36tvHl09C1Mtyx_K38GuokY";
+        const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
+
+        // DOM Elements
+        const uploadSection = document.getElementById('uploadSection');
+        const imageUpload = document.getElementById('imageUpload');
+        const selectedFileName = document.getElementById('selectedFileName');
+        const processButton = document.getElementById('processButton');
+        const previewSection = document.getElementById('previewSection');
+        const previewImage = document.getElementById('previewImage');
+        const extractedTextSection = document.getElementById('extractedTextSection');
+        const extractedText = document.getElementById('extractedText');
+        const extractPartnerDataBtn = document.getElementById('extractPartnerDataBtn');
+        const partnerDataSection = document.getElementById('partnerDataSection');
+        const totalHours = document.getElementById('totalHours');
+        const partnerList = document.getElementById('partnerList');
+        const totalTipAmount = document.getElementById('totalTipAmount');
+        const calculateTipsBtn = document.getElementById('calculateTipsBtn');
+        const tipDistributionSection = document.getElementById('tipDistributionSection');
+        const hourlyRateInfo = document.getElementById('hourlyRateInfo');
+        const calculationDetails = document.getElementById('calculationDetails');
+        const tipDistributionList = document.getElementById('tipDistributionList');
+        const copyPasteFormat = document.getElementById('copyPasteFormat');
+        const saveToHistoryBtn = document.getElementById('saveToHistoryBtn');
+        const historySection = document.getElementById('historySection');
+        const historyList = document.getElementById('historyList');
+        const downloadSection = document.getElementById('downloadSection');
+        const downloadOcrBtn = document.getElementById('downloadOcrBtn');
+        const downloadTableBtn = document.getElementById('downloadTableBtn');
+        const numPartners = document.getElementById('numPartners');
+        const manualPartnerInputs = document.getElementById('manualPartnerInputs');
+        const saveManualPartners = document.getElementById('saveManualPartners');
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up collapsible sections
+            const collapsibles = document.getElementsByClassName('collapsible');
+            for (let i = 0; i < collapsibles.length; i++) {
+                collapsibles[i].addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const content = this.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
+            }
+
+            // Set up number of partners change event
+            numPartners.addEventListener('change', renderManualPartnerInputs);
+            renderManualPartnerInputs(); // Initial render
+        });
+
+        // File upload handling
+        imageUpload.addEventListener('change', function(e) {
+            if (this.files.length > 0) {
+                const file = this.files[0];
+                selectedFileName.textContent = file.name;
+                processButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                processButton.disabled = false;
+                
+                // Create image preview
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    state.imageData = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Helper function to convert base64 to correct format for Gemini API
+        function convertBase64ForGemini(base64String) {
+            // Remove data URL prefix if present
+            const base64Data = base64String.includes(',') 
+                ? base64String.split(',')[1] 
+                : base64String;
+            
+            return base64Data;
+        }
+
+        // Process button with Gemini API
+        processButton.addEventListener('click', async function() {
+            if (!state.imageData) return;
+            
+            // Show loading state
+            this.textContent = 'Processing...';
+            this.disabled = true;
+            
+            try {
+                // Prepare image data for Gemini API
+                const base64Image = convertBase64ForGemini(state.imageData);
+                
+                // Create the prompt for OCR
+                const promptText = "Please analyze this image and: " +
+                    "1. Extract all visible text, especially focusing on names and hours worked " +
+                    "2. Maintain the original formatting and structure " +
+                    "3. Preserve any important visual context " +
+                    "4. Make sure to clearly identify all partner/employee names and their corresponding hours " +
+                    "Extract and format the text clearly:";
+                
+                // Prepare the request payload for Gemini API
+                const payload = {
+                    contents: [
+                        {
+                            parts: [
+                                { text: promptText },
+                                {
+                                    inline_data: {
+                                        mime_type: "image/jpeg",
+                                        data: base64Image
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    generationConfig: {
+                        temperature: 0.4,
+                        topK: 32,
+                        topP: 1,
+                        maxOutputTokens: 2048,
+                    }
+                };
+                
+                // Make the API call
+                const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Gemini API error: ${response.status} ${response.statusText}`);
+                }
+                
+                const responseData = await response.json();
+                
+                // Extract the OCR result text
+                if (responseData.candidates && 
+                    responseData.candidates[0] && 
+                    responseData.candidates[0].content && 
+                    responseData.candidates[0].content.parts && 
+                    responseData.candidates[0].content.parts[0] && 
+                    responseData.candidates[0].content.parts[0].text) {
+                    
+                    state.ocrResult = responseData.candidates[0].content.parts[0].text;
+                    
+                    // Update the UI
+                    previewSection.classList.remove('hidden');
+                    previewImage.src = state.imageData;
+                    
+                    extractedTextSection.classList.remove('hidden');
+                    extractedText.textContent = state.ocrResult;
+                    
+                    // Show download option for OCR text
+                    downloadSection.classList.remove('hidden');
+                    updateDownloadLinks();
+                    
+                    // Scroll to extracted text section
+                    extractedTextSection.scrollIntoView({behavior: 'smooth'});
+                } else {
+                    throw new Error('Couldn\'t extract text from the API response');
+                }
+            } catch (error) {
+                console.error('Error processing with Gemini API:', error);
+                alert(`Error processing image: ${error.message || 'Unknown error'}`);
+            } finally {
+                // Reset process button
+                processButton.textContent = 'Process';
+                processButton.disabled = false;
+            }
+        });
+
+        // Extract Partner Data button with Gemini API
+        extractPartnerDataBtn.addEventListener('click', async function() {
+            if (!state.ocrResult) return;
+            
+            // Show loading state
+            this.textContent = 'Extracting...';
+            this.disabled = true;
+            
+            try {
+                // Prepare the prompt for partner data extraction
+                const extractionPrompt = 
+                    `From the following text, extract partner names and their hours worked. Format as JSON:\n\n` +
+                    `${state.ocrResult}\n\n` +
+                    `Return a JSON array of objects with 'name' and 'hours' fields. Example:
+                    [
+                        {"name": "John Smith", "hours": 32.5},
+                        {"name": "Jane Doe", "hours": 28.75}
+                    ]
+                    
+                    Only include valid partners with hours. Output ONLY the JSON array, nothing else.`;
+                
+                // Prepare the request payload
+                const payload = {
+                    contents: [
+                        {
+                            parts: [
+                                { text: extractionPrompt }
+                            ]
+                        }
+                    ],
+                    generationConfig: {
+                        temperature: 0.2,
+                        topK: 40,
+                        topP: 0.95,
+                        maxOutputTokens: 2048,
+                    }
+                };
+                
+                // Make the API call to extract partner data
+                const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Gemini API error: ${response.status} ${response.statusText}`);
+                }
+                
+                const responseData = await response.json();
+                const partnerDataText = responseData.candidates[0].content.parts[0].text;
+                
+                // Extract JSON from the response
+                const jsonMatch = partnerDataText.match(/\[\s*{[\s\S]*}\s*\]/);
+                let partnerData = [];
+                
+                if (jsonMatch) {
+                    try {
+                        partnerData = JSON.parse(jsonMatch[0]);
+                    } catch (e) {
+                        throw new Error('Failed to parse JSON from API response');
+                    }
+                } else {
+                    throw new Error('No valid JSON found in the API response');
+                }
+                
+                // Add partner numbers
+                partnerData.forEach((partner, index) => {
+                    partner.number = index + 1;
+                });
+                
+                // Calculate total hours
+                state.totalHours = partnerData.reduce((sum, partner) => sum + parseFloat(partner.hours), 0);
+                state.partnerData = partnerData;
+                
+                // Update UI
+                totalHours.textContent = `Total Hours: ${state.totalHours}`;
+                partnerList.innerHTML = '';
+                
+                partnerData.forEach(partner => {
+                    const partnerEl = document.createElement('div');
+                    partnerEl.classList.add('mb-2');
+                    partnerEl.textContent = `${partner.name} - ${partner.hours} hours`;
+                    partnerList.appendChild(partnerEl);
+                });
+                
+                // Show partner data section
+                partnerDataSection.classList.remove('hidden');
+                
+                // Scroll to partner data section
+                partnerDataSection.scrollIntoView({behavior: 'smooth'});
+            } catch (error) {
+                console.error('Error extracting partner data:', error);
+                alert(`Error extracting partner data: ${error.message || 'Unknown error'}`);
+            } finally {
+                // Reset button
+                extractPartnerDataBtn.textContent = 'Extract Partner Data';
+                extractPartnerDataBtn.disabled = false;
+            }
+        });
+
+        // Calculate Tips button
+        calculateTipsBtn.addEventListener('click', function() {
+            const tipAmount = parseFloat(totalTipAmount.value);
+            if (isNaN(tipAmount) || tipAmount <= 0) {
+                alert('Please enter a valid tip amount.');
+                return;
+            }
+            
+            if (!state.partnerData || state.partnerData.length === 0) {
+                alert('No partner data available.');
+                return;
+            }
+            
+            // Calculate hourly rate (truncate to 2 decimal places)
+            state.totalTipAmount = tipAmount;
+            state.hourlyRate = Math.floor((tipAmount / state.totalHours) * 100) / 100;
+            
+            // Calculate individual tips with bill distribution
+            const partnerData = JSON.parse(JSON.stringify(state.partnerData)); // Deep copy
+            const denominations = [20, 10, 5, 1];
+            const startIndex = (state.weekCounter - 1) % partnerData.length;
+            const remainingAmounts = {};
+            
+            // Calculate exact and rounded tip amounts
+            partnerData.forEach(partner => {
+                const exactAmount = partner.hours * state.hourlyRate;
+                partner.raw_tip_amount = exactAmount;
+                partner.exact_tip_amount = exactAmount;
+                partner.tip_amount = Math.round(exactAmount);
+                partner.bills = {20: 0, 10: 0, 5: 0, 1: 0};
+                remainingAmounts[partner.number] = partner.tip_amount;
+            });
+            
+            // Distribute bills
+            for (const denomination of denominations) {
+                // Create order of partners starting with rotation partner
+                const partnerOrder = [];
+                for (let i = 0; i < partnerData.length; i++) {
+                    partnerOrder.push((startIndex + i) % partnerData.length);
+                }
+                
+                // Distribute bills of this denomination
+                let distributed = true;
+                while (distributed) {
+                    distributed = false;
+                    for (const idx of partnerOrder) {
+                        const partner = partnerData[idx];
+                        if (remainingAmounts[partner.number] >= denomination) {
+                            partner.bills[denomination]++;
+                            remainingAmounts[partner.number] -= denomination;
+                            distributed = true;
+                        }
+                    }
+                }
+            }
+            
+            // Generate bills text and formatted output
+            partnerData.forEach(partner => {
+                const billsText = [];
+                for (const denom of [20, 10, 5, 1]) {
+                    if (partner.bills[denom] > 0) {
+                        billsText.push(`${partner.bills[denom]}x$${denom}`);
+                    }
+                }
+                
+                partner.bills_text = billsText.join(',');
+                partner.formatted_output = `Partner Name: ${partner.name} | #: ${partner.number} | ` +
+                    `Hours: ${partner.hours} | Exact: $${partner.exact_tip_amount.toFixed(2)} | ` +
+                    `Cash: $${partner.tip_amount} | Bills: ${partner.bills_text}`;
+            });
+            
+            // Save distributed tips to state
+            state.distributedTips = partnerData;
+            state.tipCalculated = true;
+            
+            // Update UI
+            calculationDetails.textContent = `Total Tips: $${tipAmount.toFixed(2)} ÷ Total Hours: ${state.totalHours.toFixed(2)} = $${state.hourlyRate.toFixed(2)} per hour`;
+            
+            // Render tip distribution cards
+            tipDistributionList.innerHTML = '';
+            let copyPasteText = '';
+            
+            partnerData.forEach(partner => {
+                const calculation = `${partner.hours} × $${state.hourlyRate.toFixed(2)} = $${partner.exact_tip_amount.toFixed(2)}`;
+                
+                // Create partner card
+                const card = document.createElement('div');
+                card.classList.add('partner-card');
+                
+                // Split bills text into chips
+                const billChips = partner.bills_text.split(',').map(bill => 
+                    `<span class="bill-chip">${bill.trim()}</span>`
+                ).join(' ');
+                
+                card.innerHTML = `
+                    <div class="partner-card-header">
+                        <h4 class="partner-card-name">${partner.name}</h4>
+                        <span class="partner-card-amount">$${partner.tip_amount}</span>
+                    </div>
+                    <div class="mt-2">
+                        <span>${partner.hours} hours</span>
+                    </div>
+                    <div class="calculation-box">
+                        ${calculation} → $${partner.tip_amount}
+                    </div>
+                    <div class="bills-box">
+                        <div class="flex items-center flex-wrap">
+                            <span class="mr-2">Bills:</span>
+                            <div class="flex flex-wrap gap-2">
+                                ${billChips}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                tipDistributionList.appendChild(card);
+                copyPasteText += partner.formatted_output + '\n';
+            });
+            
+            // Update copy-paste format
+            copyPasteFormat.textContent = copyPasteText;
+            
+            // Show tip distribution section
+            tipDistributionSection.classList.remove('hidden');
+            
+            // Update download links for the table
+            updateDownloadLinks();
+            
+            // Increment week counter for next allocation
+            state.weekCounter++;
+            
+            // Scroll to tip distribution section
+            tipDistributionSection.scrollIntoView({behavior: 'smooth'});
+        });
+
+        // Save to History button
+        saveToHistoryBtn.addEventListener('click', function() {
+            if (!state.distributedTips) return;
+            
+            const distribution = {
+                week: state.weekCounter - 1,
+                total_amount: state.totalTipAmount,
+                total_hours: state.totalHours,
+                partners: state.distributedTips
+            };
+            
+            state.tipsHistory.push(distribution);
+            
+            // Update UI
+            updateHistoryList();
+            historySection.classList.remove('hidden');
+            
+            // Show success message
+            alert('Distribution saved to history!');
+        });
+
+        // Functions for updating the UI
+        function updateDownloadLinks() {
+            if (state.ocrResult) {
+                const ocrBlob = new Blob([state.ocrResult], {type: 'text/plain'});
+                downloadOcrBtn.href = URL.createObjectURL(ocrBlob);
+            }
+            
+            if (state.tipCalculated && state.distributedTips) {
+                const tableHtml = generateHtmlTable();
+                const tableBlob = new Blob([tableHtml], {type: 'text/html'});
+                downloadTableBtn.href = URL.createObjectURL(tableBlob);
+                downloadTableBtn.classList.remove('hidden');
+            } else {
+                downloadTableBtn.classList.add('hidden');
+            }
+        }
+
+        function updateHistoryList() {
+            historyList.innerHTML = '';
+            
+            state.tipsHistory.forEach((dist, i) => {
+                const historyItem = document.createElement('div');
+                historyItem.innerHTML = `
+                    <div class="custom-card mb-4">
+                        <h4 class="font-bold starbucks-green">Week ${dist.week}</h4>
+                        <p>Total: $${dist.total_amount.toFixed(2)} for ${dist.total_hours.toFixed(2)} hours</p>
+                        <div class="mt-2 pl-4">
+                            ${dist.partners.map(partner => 
+                                `<div class="mb-1">
+                                    ${partner.name} | #${partner.number} | ${partner.hours} hours | $${partner.tip_amount} | ${partner.bills_text}
+                                </div>`
+                            ).join('')}
+                        </div>
+                    </div>
+                `;
+                historyList.appendChild(historyItem);
+            });
+        }
+
+        function generateHtmlTable() {
+            const tipData = state.distributedTips.map(partner => {
+                const exactAmount = partner.exact_tip_amount;
+                const calculation = `${partner.hours} × $${state.hourlyRate.toFixed(2)} = $${exactAmount.toFixed(2)}`;
+                
+                return {
+                    "Partner Name": partner.name,
+                    "#": partner.number,
+                    "Hours": partner.hours,
+                    "Calculation": calculation,
+                    "Cash Amount": `$${partner.tip_amount}`,
+                    "Bills": partner.bills_text
+                };
+            });
+            
+            let tableRows = '';
+            tipData.forEach(partner => {
+                tableRows += `
+                    <tr>
+                        <td>${partner['#']}</td>
+                        <td>${partner['Partner Name']}</td>
+                        <td>${partner['Hours']}</td>
+                        <td class="calculation">${partner['Calculation']}</td>
+                        <td class="cash-amount">${partner['Cash Amount']}</td>
+                        <td>${partner['Bills']}</td>
+                    </tr>
+                `;
+            });
+            
+            return `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>TipJar Results</title>
+                    <style>
+                        body {
+                            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                            margin: 20px;
+                            padding: 0;
+                            color: #333;
+                        }
+                        h1 {
+                            color: #00704A;
+                            text-align: center;
+                        }
+                        .info {
+                            margin: 10px 0;
+                            background-color: #f8f9fa;
+                            padding: 10px;
+                            border-radius: 8px;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-top: 20px;
+                            border-radius: 8px;
+                            overflow: hidden;
+                        }
+                        th, td {
+                            border: 1px solid #ddd;
+                            padding: 12px 8px;
+                            text-align: left;
+                        }
+                        th {
+                            background-color: #00704A;
+                            color: white;
+                        }
+                        tr:nth-child(even) {
+                            background-color: #f2f2f2;
+                        }
+                        .calculation {
+                            color: #666;
+                            font-size: 0.9em;
+                        }
+                        .cash-amount {
+                            font-weight: bold;
+                            color: #00704A;
+                        }
+                        @media (max-width: 600px) {
+                            th, td {
+                                padding: 8px 4px;
+                                font-size: 14px;
+                            }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>Tip Distribution Results</h1>
+                    <div class="info">
+                        <p><strong>Hourly Rate Calculation:</strong> $${state.totalTipAmount.toFixed(2)} ÷ ${state.totalHours.toFixed(2)} = $${state.hourlyRate.toFixed(2)} per hour</p>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Partner Name</th>
+                                <th>Hours</th>
+                                <th>Calculation</th>
+                                <th>Cash</th>
+                                <th>Bills</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tableRows}
+                        </tbody>
+                    </table>
+                </body>
+                </html>
+            `;
+        }
+
+        // Manual partner input handling
+        function renderManualPartnerInputs() {
+            const count = parseInt(numPartners.value) || 3;
+            manualPartnerInputs.innerHTML = '';
+            
+            for (let i = 0; i < count; i++) {
+                const partnerDiv = document.createElement('div');
+                partnerDiv.classList.add('mb-6', 'p-3', 'border', 'rounded-lg');
+                partnerDiv.innerHTML = `
+                    <h4 class="mb-2 starbucks-green">Partner ${i+1}</h4>
+                    <div class="mb-2">
+                        <label for="name_${i}" class="block mb-1">Name:</label>
+                        <input type="text" id="name_${i}" class="w-full">
+                    </div>
+                    <div>
+                        <label for="hours_${i}" class="block mb-1">Hours:</label>
+                        <input type="number" id="hours_${i}" min="0" step="0.25" class="w-full">
+                    </div>
+                `;
+                manualPartnerInputs.appendChild(partnerDiv);
+            }
+        }
+
+        // Save manual partner data
+        saveManualPartners.addEventListener('click', function() {
+            const count = parseInt(numPartners.value) || 3;
+            const manualPartnerData = [];
+            
+            for (let i = 0; i < count; i++) {
+                const name = document.getElementById(`name_${i}`).value;
+                const hours = parseFloat(document.getElementById(`hours_${i}`).value) || 0;
+                
+                if (name && hours > 0) {
+                    manualPartnerData.push({
+                        name: name,
+                        number: i + 1,
+                        hours: hours
+                    });
+                }
+            }
+            
+            if (manualPartnerData.length === 0) {
+                alert('Please provide valid names and hours for at least one partner.');
+                return;
+            }
+            
+            // Update state
+            state.partnerData = manualPartnerData;
+            state.totalHours = manualPartnerData.reduce((sum, partner) => sum + partner.hours, 0);
+            
+            // Update UI
+            totalHours.textContent = `Total Hours: ${state.totalHours}`;
+            partnerList.innerHTML = '';
+            
+            manualPartnerData.forEach(partner => {
+                const partnerEl = document.createElement('div');
+                partnerEl.classList.add('mb-2');
+                partnerEl.textContent = `${partner.name} - ${partner.hours} hours`;
+                partnerList.appendChild(partnerEl);
+            });
+            
+            // Show partner data section
+            partnerDataSection.classList.remove('hidden');
+            
+            // Scroll to partner data section
+            partnerDataSection.scrollIntoView({behavior: 'smooth'});
+            
+            // Close the collapsible
+            const collapsible = document.querySelector('.collapsible');
+            if (collapsible.classList.contains('active')) {
+                collapsible.click();
+            }
+        });
     </script>
 </body>
 </html> 
