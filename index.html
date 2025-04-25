@@ -10,30 +10,39 @@
     <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/1200px-Starbucks_Corporation_Logo_2011.svg.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --starbucks-green: #00704A;
-            --starbucks-dark: #1E3932;
-            --starbucks-gold: #CBA258;
-            --app-dark: #111827;
-            --app-darker: #0A0F16;
-            --app-accent: #00F5A0;
+            /* Starbucks Spring Color Palette - Darker Tones */
+            --spring-green: #8fe58b;
+            --spring-blue: #a0d2eb;
+            --spring-lavender: #d1b3de;
+            --spring-pink: #ffb6c1;
+            --spring-yellow: #ffefd6;
+            --spring-peach: #ffd1ba;
+            --spring-accent: #dd7596;
+            --app-bg: #2f4f4f;           /* Dark slate gray */
+            --app-darker: #1e3535;        /* Darker slate shade */
+            --app-card: #3a5c5c;          /* Lighter slate for cards */
+            --app-input: #2f4f4f;
+            --text-white: #f5f5f5;
         }
 
         /* Dark mode colors */
         .dark {
-            --bg-primary: var(--app-dark);
+            --bg-primary: var(--app-bg);
             --bg-secondary: var(--app-darker);
-            --text-primary: #E0E0E0;
-            --text-secondary: var(--app-accent);
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --input-bg: rgba(17, 24, 39, 0.8);
-            --button-hover: #00875A;
+            --text-primary: var(--text-white);
+            --text-secondary: var(--spring-accent);
+            --card-bg: var(--app-card);
+            --input-bg: var(--app-input);
+            --button-hover: var(--spring-green);
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #0F1117; /* Nearly black to match the reference image */
+            font-family: 'Public Sans', sans-serif;
+            font-weight: 300;
+            background-color: var(--app-bg);
             color: var(--text-primary);
             min-height: 100vh;
             padding-bottom: env(safe-area-inset-bottom);
@@ -44,52 +53,61 @@
         }
 
         .app-title {
-            color: var(--app-accent);
-            font-weight: 700;
+            color: #FFFFFF;
+            font-weight: 400;
             letter-spacing: 1px;
-            margin-top: 2.5rem;
-            margin-bottom: 0.8rem;
-            font-size: 3.8rem;
-            text-shadow: 0 0 15px rgba(0, 245, 160, 0.3);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 3rem;
+            text-shadow: 0 0 15px rgba(221, 117, 150, 0.3);
             position: relative;
             display: inline-block;
+            font-family: 'Public Sans', sans-serif;
         }
 
         .app-subtitle {
-            color: rgba(0, 245, 160, 0.8);
+            color: var(--spring-pink);
             font-style: italic;
-            font-size: 1.4rem;
-            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            font-family: 'Public Sans', sans-serif;
+            font-weight: 300;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Public Sans', sans-serif;
+            font-weight: 400;
+            color: var(--spring-pink);
         }
 
         .custom-card {
-            border: 1px solid rgba(0, 245, 160, 0.1);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 24px;
+            border: 1px solid rgba(221, 117, 150, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
             background-color: var(--card-bg);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
             backdrop-filter: blur(10px);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .custom-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
         }
 
         .partner-card {
-            border: 1px solid rgba(0, 245, 160, 0.15);
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 16px;
+            border: 1px solid rgba(221, 117, 150, 0.15);
+            padding: 12px;
+            margin-bottom: 12px;
+            border-radius: 12px;
             background-color: var(--card-bg);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .partner-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
         }
 
         .partner-card-header {
@@ -100,99 +118,102 @@
 
         .partner-card-name {
             margin: 0;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             color: var(--text-primary);
         }
 
         .partner-card-amount {
-            color: var(--app-accent);
+            color: var(--spring-accent);
             font-weight: bold;
-            font-size: 24px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            font-size: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .calculation-box {
-            font-size: 15px;
-            margin-top: 12px;
-            background-color: var(--input-bg);
-            padding: 12px;
-            border-radius: 12px;
+            font-size: 14px;
+            margin-top: 8px;
+            background-color: rgba(143, 229, 139, 0.15);
+            padding: 8px 10px;
+            border-radius: 8px;
             font-weight: 500;
             color: var(--text-primary);
         }
 
         .bills-box {
-            font-size: 15px;
-            margin-top: 12px;
-            background-color: rgba(0, 245, 160, 0.05);
-            padding: 12px;
-            border-radius: 12px;
-            color: var(--app-accent);
+            font-size: 14px;
+            margin-top: 8px;
+            background-color: rgba(209, 179, 222, 0.15);
+            padding: 8px 10px;
+            border-radius: 8px;
+            color: var(--text-primary);
             font-weight: 500;
         }
 
         .bill-chip {
-            background-color: rgba(0, 245, 160, 0.2);
-            color: var(--app-accent);
-            padding: 8px 14px;
-            border-radius: 20px;
+            background-color: rgba(160, 210, 235, 0.2);
+            color: var(--text-primary);
+            padding: 6px 10px;
+            border-radius: 16px;
             display: inline-block;
-            margin-right: 8px;
-            margin-bottom: 8px;
-            font-size: 14px;
+            margin-right: 6px;
+            margin-bottom: 6px;
+            font-size: 13px;
             backdrop-filter: blur(4px);
             transition: background-color 0.2s ease, transform 0.2s ease;
         }
 
         .bill-chip:hover {
-            background-color: rgba(0, 245, 160, 0.3);
+            background-color: rgba(143, 229, 139, 0.3);
             transform: scale(1.05);
         }
 
         .section-divider {
             height: 1px;
-            background: linear-gradient(90deg, rgba(0,245,160,0) 0%, rgba(0,245,160,0.3) 50%, rgba(0,245,160,0) 100%);
-            margin: 32px 0;
+            background: linear-gradient(90deg, rgba(221,117,150,0) 0%, rgba(221,117,150,0.5) 50%, rgba(221,117,150,0) 100%);
+            margin: 20px 0;
         }
 
         input[type="number"], input[type="text"] {
-            border: 1px solid rgba(0, 245, 160, 0.2);
-            border-radius: 12px;
-            padding: 14px;
+            border: 1px solid rgba(221, 117, 150, 0.3);
+            border-radius: 10px;
+            padding: 10px;
             width: 100%;
-            margin-bottom: 14px;
+            margin-bottom: 10px;
             background-color: var(--input-bg);
             color: var(--text-primary);
-            font-size: 16px;
+            font-size: 15px;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         input[type="number"]:focus, input[type="text"]:focus {
-            border-color: var(--app-accent);
+            border-color: var(--spring-accent);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(0, 245, 160, 0.15);
+            box-shadow: 0 0 0 3px rgba(221, 117, 150, 0.15);
         }
 
         .btn-primary {
-            background-color: rgba(0, 245, 160, 0.15);
-            color: var(--app-accent);
-            border: 1px solid rgba(0, 245, 160, 0.3);
-            border-radius: 12px;
-            padding: 14px 24px;
+            background-color: transparent;
+            color: #FFFFFF;
+            border: 2px solid #FFFFFF;
+            border-radius: 30px;
+            padding: 7px 16px;
             font-weight: 600;
             letter-spacing: 0.5px;
             width: 100%;
             cursor: pointer;
             transition: all 0.2s ease;
-            backdrop-filter: blur(4px);
-            -webkit-tap-highlight-color: transparent;
+            font-size: 15px;
+            text-align: center;
+            display: inline-block;
+            max-width: 250px;
         }
 
         .btn-primary:hover {
-            background-color: rgba(0, 245, 160, 0.25);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 245, 160, 0.2);
+            background-color: #FFFFFF;
+            color: var(--app-bg);
+            transform: none;
+            box-shadow: none;
         }
 
         .btn-primary:active {
@@ -200,12 +221,12 @@
         }
 
         .collapsible {
-            background-color: rgba(30, 41, 59, 0.4);
+            background-color: rgba(255, 209, 186, 0.15);
             color: var(--text-primary);
             cursor: pointer;
             padding: 16px;
             width: 100%;
-            border: 1px solid rgba(0, 245, 160, 0.1);
+            border: none;
             text-align: left;
             outline: none;
             font-size: 16px;
@@ -216,12 +237,12 @@
         }
 
         .collapsible:hover {
-            background-color: rgba(30, 41, 59, 0.6);
+            background-color: rgba(255, 239, 214, 0.2);
         }
 
         .collapsible:after {
             content: '\002B';
-            color: var(--app-accent);
+            color: var(--spring-accent);
             font-weight: bold;
             float: right;
             margin-left: 5px;
@@ -229,8 +250,7 @@
         }
 
         .active {
-            background-color: rgba(30, 41, 59, 0.7);
-            border-color: rgba(0, 245, 160, 0.2);
+            background-color: var(--spring-yellow);
         }
 
         .active:after {
@@ -248,25 +268,25 @@
 
         .file-drop-area {
             position: relative;
-            border: 2px dashed rgba(0, 245, 160, 0.3);
+            border: 2px dashed var(--spring-accent);
             border-radius: 16px;
             padding: 30px 20px;
             text-align: center;
             transition: all 0.3s ease;
-            background-color: rgba(30, 41, 59, 0.2);
+            background-color: rgba(255, 239, 214, 0.1);
             backdrop-filter: blur(4px);
         }
 
         .file-drop-area:hover, .file-drop-area.dragover {
-            border-color: var(--app-accent);
-            background-color: rgba(0, 245, 160, 0.05);
+            border-color: var(--spring-accent);
+            background-color: rgba(255, 209, 186, 0.15);
         }
 
         .file-drop-icon {
             font-size: 36px;
             margin-bottom: 10px;
-            color: var(--app-accent);
-            opacity: 0.7;
+            color: var(--spring-accent);
+            opacity: 0.9;
         }
 
         .file-message {
@@ -286,57 +306,118 @@
         }
 
         .footer-text {
-            color: rgba(224, 224, 224, 0.6);
+            color: var(--text-primary);
             transition: color 0.2s ease;
         }
 
         .footer-text:hover {
-            color: var(--app-accent);
+            color: var(--spring-accent);
         }
 
         @media (max-width: 768px) {
             .container {
-                padding: 16px;
-                padding-top: env(safe-area-inset-top);
-                padding-bottom: calc(env(safe-area-inset-bottom) + 16px);
+                padding: 10px;
             }
 
             .logo-container {
-                width: 240px;
-                height: 240px;
+                width: 200px;
+                height: 200px;
             }
 
             .app-title {
-                font-size: 2.8rem;
-                margin-top: 1.5rem;
+                font-size: 2.5rem;
+                margin-top: 1rem;
             }
 
             .app-subtitle {
-                font-size: 1rem;
+                font-size: 0.9rem;
+                margin-bottom: 1rem;
             }
 
-            input, button, select {
-                font-size: 16px;
-                min-height: 48px;
+            input, select {
+                font-size: 15px;
+                min-height: 40px;
             }
 
             .btn-primary {
-                padding: 14px 20px;
+                padding: 8px 12px;
+                font-size: 14px;
+                min-height: unset;
             }
 
             .custom-card, .partner-card {
-                padding: 16px;
-                margin-bottom: 16px;
+                padding: 12px;
+                margin-bottom: 12px;
             }
 
             .calculation-box, .bills-box {
+                padding: 8px;
+                font-size: 13px;
+            }
+
+            .bill-chip {
+                padding: 5px 8px;
+                font-size: 12px;
+            }
+            
+            .collapsible {
                 padding: 12px;
                 font-size: 14px;
             }
 
-            .bill-chip {
+            #uploadSection h2 {
+                font-size: 1.1rem;
+            }
+            
+            .preview-container {
+                max-width: 100%;
+            }
+            
+            #previewImage {
+                max-height: 250px;
+            }
+            
+            .file-drop-area {
+                padding: 20px 15px;
+            }
+            
+            .file-drop-icon {
+                font-size: 28px;
+            }
+        }
+        
+        /* Small mobile devices */
+        @media (max-width: 480px) {
+            .app-title {
+                font-size: 2rem;
+            }
+            
+            .app-subtitle {
+                font-size: 0.8rem;
+            }
+            
+            .btn-primary {
                 padding: 6px 10px;
                 font-size: 13px;
+            }
+            
+            .partner-card-amount {
+                font-size: 16px;
+            }
+            
+            .calculation-box, .bills-box {
+                font-size: 12px;
+            }
+            
+            .bill-chip {
+                padding: 4px 6px;
+                font-size: 11px;
+                margin-right: 4px;
+                margin-bottom: 4px;
+            }
+            
+            #previewImage {
+                max-height: 200px;
             }
         }
 
@@ -364,24 +445,86 @@
         }
 
         .bills-summary {
-            background-color: rgba(0, 245, 160, 0.08);
-            padding: 12px 15px;
-            margin-top: 10px;
-            border-radius: 10px;
+            background-color: rgba(160, 210, 235, 0.15);
+            padding: 10px;
+            margin-top: 8px;
+            border-radius: 8px;
             color: var(--text-primary);
             font-weight: 500;
+            font-size: 14px;
         }
         
         .bills-summary span {
-            color: var(--app-accent);
+            color: var(--spring-accent);
             font-weight: bold;
+        }
+
+        /* Two-column layout for partner data */
+        .partner-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        @media (min-width: 768px) {
+            .partner-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .card-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+
+            .full-width {
+                grid-column: 1 / span 2;
+            }
+            
+            .btn-primary {
+                padding: 12px 24px;
+                font-size: 16px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .app-title {
+                font-size: 3.5rem;
+            }
+            
+            .partner-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+            
+            .custom-card {
+                padding: 20px;
+            }
+        }
+
+        .preview-container {
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        #previewImage {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+            object-fit: contain;
+            margin: 0 auto;
         }
     </style>
 </head>
 <body>
-    <div class="container mx-auto px-4 py-8 max-w-4xl">
+    <div class="container mx-auto px-3 py-5 max-w-4xl" style="background-color: transparent;">
         <!-- Title Section -->
-        <div class="text-center mb-12 animate__animated animate__fadeIn">
+        <div class="text-center mb-6 animate__animated animate__fadeIn">
             <h1 class="app-title">
               TipJar
             </h1>
@@ -391,112 +534,108 @@
         <!-- Main Application -->
         <div class="main-app">
             <!-- Initial Upload Section -->
-            <div id="uploadSection" class="custom-card p-6 animate__animated animate__fadeInUp animate__delay-1s">
-                <h2 class="text-xl font-bold text-gray-100 mb-6 text-center">Upload Tip Distribution Report</h2>
-                <div class="file-drop-area mb-4">
+            <div id="uploadSection" class="custom-card p-4 animate__animated animate__fadeInUp animate__delay-1s">
+                <h2 class="text-lg font-bold text-gray-100 mb-4 text-center">Upload Tip Distribution Report</h2>
+                <div class="file-drop-area mb-3">
                     <div class="file-drop-icon">📁</div>
                     <div class="file-message">Drag and drop file here</div>
-                    <div class="text-sm text-gray-400">Limit 20MB per file • JPG, JPEG, PNG</div>
                     <input type="file" id="imageUpload" accept="image/*" class="file-input">
                 </div>
-                <div id="selectedFileName" class="mt-3 text-center text-gray-400"></div>
-                <div class="mt-4">
-                    <button id="processButton" class="btn-primary py-3 opacity-50 cursor-not-allowed" disabled>Process</button>
-                </div>
-                
-            </div>
-
-            <!-- Manual Entry Option -->
-            <div class="mt-4 animate__animated animate__fadeInUp animate__delay-2s">
-                <div class="collapsible-content">
-                    <div class="p-4">
-                        <div class="mb-4">
-                            <label for="numPartners" class="block mb-2 text-gray-300">Number of Partners:</label>
-                            <input type="number" id="numPartners" min="1" max="20" value="3" class="w-full">
-                        </div>
-                        <div id="manualPartnerInputs" class="mt-4"></div>
-                        <button id="saveManualPartners" class="btn-primary mt-4 py-3">Save Partner Data</button>
-                    </div>
+                <div id="selectedFileName" class="mt-2 text-center text-gray-400"></div>
+                <div class="mt-3 text-center">
+                    <button id="processButton" class="btn-primary py-2 opacity-50 cursor-not-allowed mx-auto" disabled>Process</button>
                 </div>
             </div>
 
             <!-- Preview Section -->
-            <div id="previewSection" class="mt-8 hidden animate__animated animate__fadeIn">
-                <h2 class="text-xl font-bold text-gray-100 mb-4">Preview</h2>
-                <div class="custom-card p-4">
-                    <img id="previewImage" class="w-full rounded-lg" src="" alt="Preview">
+            <div id="previewSection" class="mt-5 hidden animate__animated animate__fadeIn">
+                <h2 class="text-lg font-bold text-gray-100 mb-3">Preview</h2>
+                <div class="custom-card p-3">
+                    <div class="preview-container">
+                        <img id="previewImage" class="rounded-lg" src="" alt="Preview">
+                    </div>
                 </div>
             </div>
 
             <!-- Extracted Text Section -->
-            <div id="extractedTextSection" class="mt-8 hidden animate__animated animate__fadeIn">
-                <h2 class="text-xl font-bold text-gray-100 mb-4">Extracted Partner Hours</h2>
-                <div class="custom-card p-4">
+            <div id="extractedTextSection" class="mt-5 hidden animate__animated animate__fadeIn">
+                <h2 class="text-lg font-bold text-gray-100 mb-3">Extracted Partner Hours</h2>
+                <div class="custom-card p-3">
                     <pre id="extractedText" class="whitespace-pre-wrap text-gray-300"></pre>
                 </div>
             </div>
 
             <!-- Partner Data Section -->
-            <div id="partnerDataSection" class="mt-8 hidden animate__animated animate__fadeIn">
-                <h2 class="text-xl font-bold text-gray-100 mb-4">Partner Data</h2>
-                <div class="custom-card p-4">
-                    <div id="totalHours" class="text-lg font-bold mb-4 text-gray-100"></div>
-                    <div id="partnerList" class="text-gray-300"></div>
+            <div id="partnerDataSection" class="mt-5 hidden animate__animated animate__fadeIn">
+                <h2 class="text-lg font-bold text-gray-100 mb-3">Partner Data</h2>
+                <div class="custom-card p-3">
+                    <div id="totalHours" class="text-lg font-bold mb-3 text-gray-100"></div>
+                    <div id="partnerList" class="text-gray-300 partner-grid"></div>
                 </div>
 
-                <div class="mt-6">
+                <div class="mt-4">
                     <label for="totalTipAmount" class="block mb-2 text-gray-300">Enter total tip amount for the week: $</label>
                     <input type="number" id="totalTipAmount" min="0" step="10" class="w-full">
-                    <button id="calculateTipsBtn" class="btn-primary mt-4 py-3">Calculate Tips</button>
+                    <div class="text-center mt-3">
+                        <button id="calculateTipsBtn" class="btn-primary mt-3 py-2">Calculate Tips</button>
+                    </div>
                 </div>
             </div>
 
             <!-- Tip Distribution Results -->
-            <div id="tipDistributionSection" class="mt-8 hidden animate__animated animate__fadeIn">
-                <h2 class="text-xl font-bold text-gray-100 mb-4">Tip Distribution Results</h2>
+            <div id="tipDistributionSection" class="mt-5 hidden animate__animated animate__fadeIn">
+                <h2 class="text-lg font-bold text-gray-100 mb-3">Tip Distribution Results</h2>
                 
-                <div id="hourlyRateInfo" class="bg-gray-800 bg-opacity-70 text-gray-100 p-4 rounded-lg mb-4">
+                <div id="hourlyRateInfo" class="bg-card bg-opacity-100 text-gray-100 p-3 rounded-lg mb-3" style="background-color: var(--card-bg);">
                     <p class="mb-0"><strong>Calculation:</strong></p>
-                    <p class="mb-0 text-app-accent" id="calculationDetails"></p>
+                    <p class="mb-0 text-spring-accent" id="calculationDetails"></p>
                     <div id="billsNeeded" class="bills-summary mt-2">
                         <p class="mb-1"><strong>Bills Needed:</strong></p>
                         <p class="mb-0"><span id="twentyCount">0</span> × $20, <span id="tenCount">0</span> × $10, <span id="fiveCount">0</span> × $5, <span id="oneCount">0</span> × $1</p>
                     </div>
                 </div>
                 
-                <div id="tipDistributionList"></div>
+                <div id="tipDistributionList" class="partner-grid"></div>
                 
-                <button class="collapsible mt-4 text-gray-300">Copy-paste format</button>
+                <button class="collapsible mt-3 text-gray-300">Copy-paste format</button>
                 <div class="collapsible-content">
-                    <div class="p-4">
-                        <pre id="copyPasteFormat" class="whitespace-pre-wrap bg-gray-800 bg-opacity-50 p-4 rounded text-sm text-gray-300"></pre>
+                    <div class="p-3">
+                        <pre id="copyPasteFormat" class="whitespace-pre-wrap bg-gray-800 bg-opacity-50 p-3 rounded text-sm text-gray-300"></pre>
                     </div>
                 </div>
                 
-                <button id="saveToHistoryBtn" class="btn-primary mt-6 py-3">Save to History</button>
+                <div class="card-grid mt-4">
+                    <div class="text-center">
+                        <button id="saveToHistoryBtn" class="btn-primary py-2">Save to History</button>
+                    </div>
+                    <div class="text-center">
+                        <a id="downloadTableBtn" href="#" download="tip_distribution.html" class="btn-primary py-2 inline-block">Download as Table</a>
+                    </div>
+                </div>
             </div>
 
             <!-- Distribution History -->
-            <div id="historySection" class="mt-8 hidden animate__animated animate__fadeIn">
+            <div id="historySection" class="mt-5 hidden animate__animated animate__fadeIn">
                 <button class="collapsible text-gray-300">View Distribution History</button>
                 <div class="collapsible-content">
-                    <div id="historyList" class="p-4"></div>
+                    <div id="historyList" class="p-3"></div>
                 </div>
             </div>
 
             <!-- Download Options -->
-            <div id="downloadSection" class="mt-8 hidden animate__animated animate__fadeIn">
-                <h2 class="text-xl font-bold text-gray-100 mb-4">Download Options</h2>
-                <div class="space-y-4">
-                    <a id="downloadOcrBtn" href="#" download="ocr_result.txt" class="btn-primary py-3 block text-center">Download OCR Text</a>
-                    <a id="downloadTableBtn" href="#" download="tip_distribution.html" class="btn-primary py-3 block text-center">Download as Table</a>
+            <div id="downloadSection" class="mt-5 hidden animate__animated animate__fadeIn">
+                <h2 class="text-lg font-bold text-gray-100 mb-3">Download Options</h2>
+                <div class="space-y-3">
+                    <div class="text-center">
+                        <a id="downloadOcrBtn" href="#" download="ocr_result.txt" class="btn-primary py-2 inline-block">Download OCR Text</a>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Footer -->
         <div class="section-divider"></div>
-        <div class="text-center mt-6 mb-8">
+        <div class="text-center mt-4 mb-5">
             <p class="mb-0 footer-text">Made by William Walsh</p>
             <p class="mt-1 footer-text">Starbucks Store# 69600</p>
         </div>
@@ -816,7 +955,7 @@
                 
                 partnerData.forEach(partner => {
                     const partnerEl = document.createElement('div');
-                    partnerEl.classList.add('mb-2');
+                    partnerEl.classList.add('text-sm', 'mb-1');
                     partnerEl.textContent = `${partner.name} - ${partner.hours} hours`;
                     partnerList.appendChild(partnerEl);
                 });
@@ -949,18 +1088,15 @@
                         <h4 class="partner-card-name">${partner.name}</h4>
                         <span class="partner-card-amount">$${partner.tip_amount}</span>
                     </div>
-                    <div class="mt-2">
-                        <span>${partner.hours} hours</span>
+                    <div class="mt-1">
+                        <span class="text-sm">${partner.hours} hours</span>
                     </div>
                     <div class="calculation-box">
                         ${calculation} → $${partner.tip_amount}
                     </div>
                     <div class="bills-box">
-                        <div class="flex items-center flex-wrap">
-                            <span class="mr-2">Bills:</span>
-                            <div class="flex flex-wrap gap-2">
-                                ${billChips}
-                            </div>
+                        <div class="flex flex-wrap gap-1">
+                            ${billChips}
                         </div>
                     </div>
                 `;
@@ -1215,7 +1351,7 @@
             
             manualPartnerData.forEach(partner => {
                 const partnerEl = document.createElement('div');
-                partnerEl.classList.add('mb-2');
+                partnerEl.classList.add('text-sm', 'mb-1');
                 partnerEl.textContent = `${partner.name} - ${partner.hours} hours`;
                 partnerList.appendChild(partnerEl);
             });
